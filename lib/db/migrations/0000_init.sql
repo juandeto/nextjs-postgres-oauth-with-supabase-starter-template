@@ -1,16 +1,15 @@
 CREATE TABLE "activity_logs" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"user_id" varchar,
 	"action" text NOT NULL,
 	"timestamp" timestamp DEFAULT now() NOT NULL,
 	"ip_address" varchar(45)
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
 	"name" varchar(100),
 	"email" varchar(255) NOT NULL,
-	"password_hash" text NOT NULL,
 	"role" varchar(20) DEFAULT 'member' NOT NULL,
 	"stripe_customer_id" varchar(255),
 	"stripe_subscription_id" varchar(255),
