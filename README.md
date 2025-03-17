@@ -2,10 +2,24 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Install the dependencies:
 
 ```bash
-npm run dev
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Create a .env file following .env.example blueprint and enter your Supabase keys.
+
+Finally, run the development server:
+
+```bash
+npm install
 # or
 yarn dev
 # or
