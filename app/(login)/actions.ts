@@ -69,7 +69,7 @@ export async function signUp(formData: FormData) {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   };
-
+  console.log({ data });
   const { error, data: insertedUser } = await supabase.auth.signUp(data);
 
   if (error || !insertedUser.user?.email) {
@@ -82,12 +82,7 @@ export async function signUp(formData: FormData) {
     createdAt: new Date(),
     updatedAt: new Date(),
     id: insertedUser.user?.id || '',
-    role: 'user',
-    stripeCustomerId: null,
-    stripeSubscriptionId: null,
-    stripeProductId: null,
-    planName: null,
-    subscriptionStatus: null,
+    role: 'admin',
     deletedAt: null,
   });
 

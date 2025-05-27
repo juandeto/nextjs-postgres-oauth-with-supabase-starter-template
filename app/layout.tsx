@@ -40,10 +40,10 @@ export default function RootLayout({
               <div className="max-w-6xl mx-auto px-8">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                   <div className="text-xl font-light tracking-widest mb-6 md:mb-0">
-                    NOTHING
+                    AFILIARAPP
                   </div>
                   <div className="text-sm text-gray-500">
-                    © 2025 Nothing™ — All rights reserved to nothing
+                    © 2025 AFILIARAPP™ — All rights reserved to AFILIARAPP
                   </div>
                 </div>
               </div>

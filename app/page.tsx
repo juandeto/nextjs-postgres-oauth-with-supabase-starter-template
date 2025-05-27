@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Check, Star, ChevronDown, Sparkles } from 'lucide-react';
 import ScrollButton from '@/components/ui/ScrollButton';
 
-export default function NothingStore() {
+export default function AFILIARAPPStore() {
   return (
     <>
       <main>
@@ -19,14 +19,16 @@ export default function NothingStore() {
             </Badge>
             <h1 className="text-6xl font-extralight tracking-tight mb-6">
               The essence of <br />
-              absolute <span className="italic">nothingness.</span>
+              absolute <span className="italic">AFILIARAPPness.</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-lg font-light leading-relaxed mb-8">
-              Discover the luxury of nothing. A revolutionary non-product
+              Discover the luxury of AFILIARAPP. A revolutionary non-product
               designed to bring emptiness into your life.
             </p>
             <div className="flex gap-4 items-center">
-              <ScrollButton targetId="pricing">Experience Nothing</ScrollButton>
+              <ScrollButton targetId="pricing">
+                Experience AFILIARAPP
+              </ScrollButton>
               <a
                 href="#learn-more"
                 className="text-sm text-gray-500 flex items-center group"
@@ -37,7 +39,7 @@ export default function NothingStore() {
             </div>
           </div>
 
-          {/* 3D Element - The "Nothing" product display */}
+          {/* 3D Element - The "AFILIARAPP" product display */}
           <div
             className="absolute top-40 right-0 w-96 h-96 rounded-full bg-gradient-to-tr from-gray-50 to-white border border-gray-100 shadow-sm"
             style={{
@@ -59,7 +61,7 @@ export default function NothingStore() {
         <section id="features" className="py-24 bg-white">
           <div className="max-w-6xl mx-auto px-8">
             <h2 className="text-3xl font-light text-center mb-16">
-              The benefits of <span className="font-normal">Nothing</span>
+              The benefits of <span className="font-normal">AFILIARAPP</span>
             </h2>
 
             <div className="grid md:grid-cols-3 gap-12">
@@ -70,8 +72,8 @@ export default function NothingStore() {
                   </div>
                   <h3 className="text-xl font-medium mb-2">Zero Maintenance</h3>
                   <p className="text-gray-600 font-light">
-                    Our nothing requires absolutely no upkeep, no storage space,
-                    and no attention.
+                    Our AFILIARAPP requires absolutely no upkeep, no storage
+                    space, and no attention.
                   </p>
                 </CardContent>
               </Card>
@@ -85,7 +87,7 @@ export default function NothingStore() {
                     Perfectly Sustainable
                   </h3>
                   <p className="text-gray-600 font-light">
-                    Nothing produces zero waste, zero emissions, and has a
+                    AFILIARAPP produces zero waste, zero emissions, and has a
                     nonexistent carbon footprint.
                   </p>
                 </CardContent>
@@ -98,8 +100,8 @@ export default function NothingStore() {
                   </div>
                   <h3 className="text-xl font-medium mb-2">Instant Delivery</h3>
                   <p className="text-gray-600 font-light">
-                    Nothing arrives faster than our nothing — it's already there
-                    before you order it.
+                    AFILIARAPP arrives faster than our AFILIARAPP — it's already
+                    there before you order it.
                   </p>
                 </CardContent>
               </Card>
@@ -111,7 +113,8 @@ export default function NothingStore() {
         <section id="testimonials" className="py-24 bg-gray-50">
           <div className="max-w-4xl mx-auto px-8">
             <h2 className="text-3xl font-light text-center mb-16">
-              What people say about <span className="font-normal">Nothing</span>
+              What people say about{' '}
+              <span className="font-normal">AFILIARAPP</span>
             </h2>
 
             <div className="space-y-8">
@@ -126,7 +129,7 @@ export default function NothingStore() {
                     ))}
                   </div>
                   <p className="text-gray-600 italic mb-6">
-                    "I've never experienced nothing like this before. It's
+                    "I've never experienced AFILIARAPP like this before. It's
                     changed my perspective on emptiness."
                   </p>
                   <div className="flex items-center gap-3">
@@ -152,8 +155,8 @@ export default function NothingStore() {
                     ))}
                   </div>
                   <p className="text-gray-600 italic mb-6">
-                    "I purchased nothing and received exactly what I expected.
-                    Perfection in its purest form."
+                    "I purchased AFILIARAPP and received exactly what I
+                    expected. Perfection in its purest form."
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
@@ -172,10 +175,10 @@ export default function NothingStore() {
         <section id="pricing" className="py-24 bg-white">
           <div className="max-w-4xl mx-auto px-8 text-center">
             <h2 className="text-3xl font-light mb-6">
-              Experience <span className="font-normal">Nothing</span> today
+              Experience <span className="font-normal">AFILIARAPP</span> today
             </h2>
             <p className="text-gray-600 max-w-lg mx-auto mb-12">
-              Our carefully curated Nothing is ethically sourced, completely
+              Our carefully curated AFILIARAPP is ethically sourced, completely
               sustainable, and absolutely invisible.
             </p>
 
@@ -184,7 +187,7 @@ export default function NothingStore() {
                 <Badge variant="secondary" className="mb-4">
                   Most Popular
                 </Badge>
-                <h3 className="text-4xl font-light mb-2">Premium Nothing</h3>
+                <h3 className="text-4xl font-light mb-2">Premium AFILIARAPP</h3>
                 <p className="text-gray-500 mb-8">
                   The ultimate minimalist experience
                 </p>
@@ -197,7 +200,7 @@ export default function NothingStore() {
                 <ul className="space-y-4 mb-8 text-left">
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-500 mr-3" />
-                    <span className="text-gray-600">100% Pure Nothing</span>
+                    <span className="text-gray-600">100% Pure AFILIARAPP</span>
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-500 mr-3" />
@@ -212,7 +215,7 @@ export default function NothingStore() {
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-500 mr-3" />
                     <span className="text-gray-600">
-                      Lifetime Access to Nothing
+                      Lifetime Access to AFILIARAPP
                     </span>
                   </li>
                 </ul>

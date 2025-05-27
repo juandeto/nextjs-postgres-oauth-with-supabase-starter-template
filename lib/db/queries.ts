@@ -1,8 +1,8 @@
 'use server';
 
-import { desc, and, eq, isNull } from 'drizzle-orm';
+import { desc, and, eq, isNull, like, or, ilike } from 'drizzle-orm';
 import { db } from './drizzle';
-import { activityLogs, User, users } from './schema';
+import { activityLogs, padron, User, users } from './schema';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
@@ -65,4 +65,16 @@ export async function getActivityLogs() {
     .where(eq(activityLogs.userId, user.id))
     .orderBy(desc(activityLogs.timestamp))
     .limit(10);
+}
+
+export async function getSearchFromPadron(search: number) {
+  const searchTerm = `${search}`;
+
+  const results = await db
+    .select()
+    .from(padron)
+    .where(eq(padron.dni, searchTerm))
+    .execute();
+
+  return results;
 }

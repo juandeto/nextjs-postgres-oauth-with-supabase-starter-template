@@ -1,0 +1,21 @@
+export type FichaFormValues = {
+  partido: string;
+  nombres: string;
+  apellidos: string;
+  matricula: string;
+  nacionalidad: string;
+  estadoCivil: string;
+  sexo?: string;
+  clase: string;
+  fechaNacimiento: string;
+  profesion: string;
+  lugarNacimiento: string;
+  distrito: string;
+  calle: string;
+  numero: string;
+  localidad: string;
+  piso: string;
+  departamento: string;
+  observaciones: string;
+  fechaAfiliacion: string | Date | undefined;
+};
