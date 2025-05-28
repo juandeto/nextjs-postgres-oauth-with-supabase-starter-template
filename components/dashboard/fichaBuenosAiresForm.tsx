@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Stamp } from 'lucide-react';
+import { Check, Stamp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,12 +25,14 @@ export default function FichaBuenosAiresForm({
   itemPadron: Padron;
 }) {
   const [apellido, ...nombres] = itemPadron.nombreYApellido?.split(' ') || [];
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<FichaFormValues>({
     defaultValues: {
       nombres: nombres?.join(' '),
@@ -44,10 +46,6 @@ export default function FichaBuenosAiresForm({
       matricula: itemPadron.dni || '',
     },
   });
-
-  console.log('itemPadron', itemPadron);
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = async (data: FichaFormValues) => {
     try {
@@ -65,345 +63,435 @@ export default function FichaBuenosAiresForm({
           a.href = url;
           a.download = 'ficha-afiliacion.pdf';
           a.click();
+          setDownloadSuccess(true);
+          reset();
         });
     } catch (error) {}
-    setIsSubmitted(true);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="p-6 border border-gray-300 shadow-md"
-    >
-      {/* Header */}
-      <div className="flex flex-col items-center mb-6 border-b border-gray-300 pb-4">
-        <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-8">
-          <Image
-            src="/assets/escudo-buenos-aires.png"
-            width={500}
-            height={500}
-            alt="Escudo de Buenos Aires"
-          />
-        </div>
-        <h1 className="text-xl font-bold text-center">
-          PROVINCIA DE BUENOS AIRES
-        </h1>
-        <h2 className="text-lg font-semibold text-center">JUNTA ELECTORAL</h2>
-      </div>
-
-      {/* Party/Group */}
-      <div className="mb-6">
-        <div className="flex items-center mb-2">
-          <Label htmlFor="partido" className="font-bold mr-2">
-            PARTIDO/AGRUPACION:
-          </Label>
-          <Input
-            id="partido"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('partido', { required: true })}
-          />
-        </div>
-        {errors.partido && (
-          <p className="text-red-500 text-sm">Este campo es requerido</p>
-        )}
-      </div>
-
-      {/* Personal Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <Label htmlFor="nombres" className="font-medium">
-            Nombre(s):
-          </Label>
-          <Input
-            id="nombres"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('nombres', { required: true })}
-          />
-          {errors.nombres && (
-            <p className="text-red-500 text-sm">Este campo es requerido</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="apellidos" className="font-medium">
-            Apellido(s):
-          </Label>
-          <Input
-            id="apellidos"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('apellidos', { required: true })}
-          />
-          {errors.apellidos && (
-            <p className="text-red-500 text-sm">Este campo es requerido</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="matricula" className="font-medium">
-            Matrícula (L.E./L.C./D.N.I.) N°:
-          </Label>
-          <Input
-            id="matricula"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('matricula', { required: true })}
-          />
-          {errors.matricula && (
-            <p className="text-red-500 text-sm">Este campo es requerido</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="fechaNacimiento" className="font-medium">
-            Fecha de Nacimiento:
-          </Label>
-          <Controller
-            name="fechaNacimiento"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <DateInput
-                {...field}
-                value={field.value}
-                className="border-b border-gray-400 focus:border-gray-800"
-              />
-            )}
-          />
-          {errors.fechaNacimiento && (
-            <p className="text-red-500 text-sm">Este campo es requerido</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="nacionalidad" className="font-medium">
-            Nacionalidad:
-          </Label>
-          <Input
-            id="nacionalidad"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('nacionalidad', { required: true })}
-          />
-          {errors.nacionalidad && (
-            <p className="text-red-500 text-sm">Este campo es requerido</p>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="lugarNacimiento" className="font-medium">
-            Lugar:
-          </Label>
-          <Input
-            id="lugarNacimiento"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('lugarNacimiento')}
-          />
-        </div>
-        <div>
-          <Label htmlFor="estadoCivil" className="font-medium">
-            Estado Civil:
-          </Label>
-          <Select {...register('estadoCivil')}>
-            <SelectTrigger
-              id="estadoCivil"
-              className="border-b border-gray-400 focus:border-gray-800 w-full"
-            >
-              <SelectValue placeholder="Seleccionar" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="soltero">Soltero/a</SelectItem>
-              <SelectItem value="casado">Casado/a</SelectItem>
-              <SelectItem value="divorciado">Divorciado/a</SelectItem>
-              <SelectItem value="viudo">Viudo/a</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="sexo" className="font-medium">
-            Sexo:
-          </Label>
-          <Select {...register('sexo')} defaultValue={itemPadron?.sexo || ''}>
-            <SelectTrigger
-              id="sexo"
-              className="border-b border-gray-400 focus:border-gray-800 w-full"
-            >
-              <SelectValue placeholder="Seleccionar" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="M">Masculino</SelectItem>
-              <SelectItem value="F">Femenino</SelectItem>
-              <SelectItem value="O">Otro</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="clase" className="font-medium">
-            Clase:
-          </Label>
-          <Input
-            id="clase"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('clase')}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="profesion" className="font-medium">
-            Profesión u Oficio:
-          </Label>
-          <Input
-            id="profesion"
-            className="border-b border-gray-400 focus:border-gray-800"
-            {...register('profesion')}
-          />
-        </div>
-      </div>
-
-      {/* Address */}
-      <div className="mb-6">
-        <h3 className="font-bold text-center mb-4 uppercase">
-          Último domicilio según documento cívico
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="distrito" className="font-medium">
-              Distrito:
-            </Label>
-            <Input
-              id="distrito"
-              className="border-b border-gray-400 focus:border-gray-800"
-              {...register('distrito')}
-            />
-          </div>
-          <div>
-            <Label htmlFor="localidad" className="font-medium">
-              Ciudad, Pueblo o Localidad:
-            </Label>
-            <Input
-              id="localidad"
-              className="border-b border-gray-400 focus:border-gray-800"
-              {...register('localidad', { required: true })}
-            />
-            {errors.localidad && (
-              <p className="text-red-500 text-sm">Este campo es requerido</p>
-            )}
-          </div>
-          <div className="flex-1">
-            <Label htmlFor="calle" className="font-medium">
-              Calle:
-            </Label>
-            <Input
-              id="calle"
-              className="border-b border-gray-400 focus:border-gray-800"
-              {...register('calle', { required: true })}
-            />
-            {errors.calle && (
-              <p className="text-red-500 text-sm">Este campo es requerido</p>
-            )}
-          </div>
-          <div className="flex gap-2">
-            <div className="w-24">
-              <Label htmlFor="numero" className="font-medium">
-                N°:
-              </Label>
-              <Input
-                id="numero"
-                className="border-b border-gray-400 focus:border-gray-800"
-                {...register('numero', { required: true })}
-              />
-              {errors.numero && (
-                <p className="text-red-500 text-sm">Este campo es requerido</p>
-              )}
-            </div>
-            <div className="w-24">
-              <Label htmlFor="piso" className="font-medium">
-                Piso:
-              </Label>
-              <Input
-                id="piso"
-                className="border-b border-gray-400 focus:border-gray-800"
-                {...register('piso')}
-              />
-            </div>
-            <div className="w-24">
-              <Label htmlFor="departamento" className="font-medium">
-                Dpto:
-              </Label>
-              <Input
-                id="departamento"
-                className="border-b border-gray-400 focus:border-gray-800"
-                {...register('departamento')}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Observations */}
-      <div className="mb-6">
-        <Label htmlFor="observaciones" className="font-medium">
-          OBSERVACIONES:
-        </Label>
-        <Textarea
-          id="observaciones"
-          className="border border-gray-400 focus:border-gray-800 min-h-[100px]"
-          {...register('observaciones')}
-        />
-      </div>
-
-      {/* Signatures */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-        <div className="flex flex-col items-start">
-          <div>
-            <Label htmlFor="fechaAfiliacion" className="font-medium">
-              Fecha Aceptación de la Afiliación:
-            </Label>
-            <Controller
-              name="fechaAfiliacion"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <DateInput
-                  {...field}
-                  value={field.value}
-                  className="border-b border-gray-400 focus:border-gray-800"
-                />
-              )}
-            />
-          </div>
-          <div className="h-24 w-full border-b border-gray-400 mb-2 flex items-end justify-center">
-            <p className="text-gray-400 italic">
-              Firma Autoridad Partidaria (se realiza manualmente)
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="h-14"></div>
-          <div className="h-24 w-full border-b border-gray-400 mb-2 flex items-end justify-center">
-            <p className="text-gray-400 italic">
-              Firma del solicitante (se realiza manualmente)
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Certification */}
-      {/* <div className="mb-6 border-t border-gray-300 pt-4">
-        <h3 className="font-medium text-center mb-4">
-          Certificación de Firma (por los Titulares del Registro Provincial de
-          las Personas o sus Delegaciones, Autoridad Partidaria, Escribano
-          Público, Juez de Paz o de Primera Instancia en lo Civil y Comercial de
-          turno)
-        </h3>
-        <div className="h-24 w-full border border-gray-400 rounded-md"></div>
-      </div> */}
-
-      {/* Submit Button */}
-      <div className="flex justify-center mt-6">
-        <Button type="submit" className="bg-primary hover:bg-primary-hover">
+    <div className="w-full relative">
+      <div className="flex justify-around items-center mt-6 mb-4">
+        <Button
+          type="submit"
+          form="fichaAfiliacionBuenosAires"
+          className="bg-primary hover:bg-primary-hover cursor-pointer"
+        >
           Descargar Ficha
         </Button>
       </div>
 
-      {/* Success Message */}
-      {isSubmitted && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-          Formulario enviado exitosamente.
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-6 border border-gray-300 shadow-md w-[1100px] bg-white mx-auto"
+        id="fichaAfiliacionBuenosAires"
+      >
+        {/* Header */}
+        <div className="flex flex-col items-center mb-6  pb-4">
+          <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-8">
+            <Image
+              src="/assets/escudo-buenos-aires.png"
+              width={500}
+              height={500}
+              alt="Escudo de Buenos Aires"
+            />
+          </div>
+          <h1 className="text-xl font-bold text-center">
+            PROVINCIA DE BUENOS AIRES
+          </h1>
+          <h2 className="text-lg font-normal text-center">JUNTA ELECTORAL</h2>
+        </div>
+        {/* Party/Group */}
+        <div className="mb-6">
+          <div className="flex items-start mb-2 ">
+            <Label
+              htmlFor="partido"
+              className="font-normal text-lg relative top-[10px]"
+            >
+              PARTIDO/AGRUPACION:
+            </Label>
+            <Input
+              {...register('partido', { required: true })}
+              contentEditable="true"
+              className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+            />
+          </div>
+          {errors.partido && (
+            <p className="text-red-500 text-sm">Este campo es requerido</p>
+          )}
+          {/* Personal Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 mb-2">
+            <div>
+              <div className="flex items-end">
+                <Label htmlFor="apellidos" className="font-normal">
+                  Apellido(s):
+                </Label>
+                <Input
+                  id="apellidos"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('apellidos', { required: true })}
+                />
+              </div>
+              {errors.apellidos && (
+                <p className="text-red-500 text-sm">Este campo es requerido</p>
+              )}
+            </div>
+            <div>
+              <div className="flex items-end">
+                <Label htmlFor="nombres" className="font-normal">
+                  Nombre(s):
+                </Label>
+                <Input
+                  id="nombres"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('nombres', { required: true })}
+                />
+              </div>
+              {errors.nombres && (
+                <p className="text-red-500 text-sm">Este campo es requerido</p>
+              )}
+            </div>
+            <div>
+              <div className="flex items-end">
+                <Label
+                  htmlFor="matricula"
+                  className="font-normal whitespace-nowrap"
+                >
+                  Matrícula (L.E./L.C./D.N.I.) N°:
+                </Label>
+                <Input
+                  id="matricula"
+                  className="!bg-white border-white basis-full border-b-2 border-dotted border-b-black rounded-none"
+                  {...register('matricula', { required: true })}
+                />
+              </div>
+              {errors.matricula && (
+                <p className="text-red-500 text-sm">Este campo es requerido</p>
+              )}
+            </div>
+            <div className="flex justify-between">
+              <div className="flex items-end basis-1/3">
+                <Controller
+                  name="sexo"
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <Label htmlFor="sexo" className="font-normal">
+                        Sexo:
+                      </Label>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger
+                          id="sexo"
+                          className="!bg-white border-white w-full border-b-2 border-dotted border-b-black rounded-none"
+                        >
+                          <SelectValue placeholder="Seleccionar" />
+                        </SelectTrigger>
+                        <SelectContent ref={field.ref}>
+                          <SelectItem value="M">M</SelectItem>
+                          <SelectItem value="F">F</SelectItem>
+                          <SelectItem value="O">Otro</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  )}
+                />
+              </div>
+              <div className="flex items-end basis-1/3">
+                <Label htmlFor="clase" className="font-normal">
+                  Clase:
+                </Label>
+                <Input
+                  id="clase"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('clase')}
+                />
+              </div>
+              <div className=" basis-1/3">
+                <div className="flex items-end">
+                  <Label
+                    htmlFor="fechaNacimiento"
+                    className="font-normal whitespace-nowrap"
+                  >
+                    Fecha de Nacimiento:
+                  </Label>
+                  <Controller
+                    name="fechaNacimiento"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <DateInput
+                        {...field}
+                        value={field.value}
+                        className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                      />
+                    )}
+                  />
+                </div>
+                {errors.fechaNacimiento && (
+                  <p className="text-red-500 text-sm">
+                    Este campo es requerido
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-end">
+              <Label htmlFor="nacionalidad" className="font-normal">
+                Nacionalidad:
+              </Label>
+              <Input
+                id="nacionalidad"
+                className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                {...register('nacionalidad', { required: true })}
+              />
+              {errors.nacionalidad && (
+                <p className="text-red-500 text-sm">Este campo es requerido</p>
+              )}
+            </div>
+            <div className="flex justify-between">
+              <div className="flex items-end basis-full">
+                <Label htmlFor="lugarNacimiento" className="font-normal">
+                  Lugar:
+                </Label>
+                <Input
+                  id="lugarNacimiento"
+                  className="!bg-white border-b-2 border-white border-dotted border-b-black rounded-none"
+                  {...register('lugarNacimiento')}
+                />
+              </div>
+              <div className="flex items-end basis-full">
+                <Label
+                  htmlFor="profesion"
+                  className="font-normal whitespace-nowrap"
+                >
+                  Profesión u Oficio:
+                </Label>
+                <Input
+                  id="profesion"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('profesion')}
+                />
+              </div>
+            </div>
+            <div className="flex items-end basis-full w-full col-span-full">
+              <Controller
+                name="estadoCivil"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Label
+                      htmlFor="estadoCivil"
+                      className="font-normal whitespace-nowrap"
+                    >
+                      Estado Civil:
+                    </Label>
+
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger
+                        id="estadoCivil"
+                        className="!bg-white border-white w-full border-b-2 border-dotted border-b-black rounded-none"
+                      >
+                        <SelectValue placeholder="Seleccionar" />
+                      </SelectTrigger>
+                      <SelectContent ref={field.ref}>
+                        <SelectItem value="Soltero">Soltero/a</SelectItem>
+                        <SelectItem value="Casado">Casado/a</SelectItem>
+                        <SelectItem value="Divorciado">Divorciado/a</SelectItem>
+                        <SelectItem value="Viudo">Viudo/a</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </>
+                )}
+              />
+            </div>
+          </div>
+          <div className="">
+            <h3 className="font-normal text-left uppercase">
+              Último domicilio según documento cívico
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="flex items-end basis-full">
+                <Label htmlFor="distrito" className="font-normal">
+                  Distrito:
+                </Label>
+                <Input
+                  id="distrito"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('distrito')}
+                />
+              </div>
+              <div>
+                <div className="flex items-end">
+                  <Label
+                    htmlFor="localidad"
+                    className="font-normal whitespace-nowrap"
+                  >
+                    Ciudad, Pueblo o Localidad:
+                  </Label>
+                  <Input
+                    id="localidad"
+                    className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                    {...register('localidad', { required: true })}
+                  />
+                </div>
+                {errors.localidad && (
+                  <p className="text-red-500 text-sm">
+                    Este campo es requerido
+                  </p>
+                )}
+              </div>
+              <div className="flex items-end">
+                <Label htmlFor="calle" className="font-normal">
+                  Calle:
+                </Label>
+                <Input
+                  id="calle"
+                  className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                  {...register('calle', { required: true })}
+                />
+                {errors.calle && (
+                  <p className="text-red-500 text-sm">
+                    Este campo es requerido
+                  </p>
+                )}
+              </div>
+              <div className="flex justify-between">
+                <div className="basis-full">
+                  <div className="basis-full flex items-end">
+                    <Label htmlFor="numero" className="font-normal">
+                      N°:
+                    </Label>
+                    <Input
+                      id="numero"
+                      className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                      {...register('numero', { required: true })}
+                    />
+                  </div>
+                  {errors.numero && (
+                    <p className="text-red-500 text-sm">
+                      Este campo es requerido
+                    </p>
+                  )}
+                </div>
+                <div className="basis-full flex items-end">
+                  <Label htmlFor="piso" className="font-normal">
+                    Piso:
+                  </Label>
+                  <Input
+                    id="piso"
+                    className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                    {...register('piso')}
+                  />
+                </div>
+                <div className="basis-full flex items-end">
+                  <Label htmlFor="departamento" className="font-normal">
+                    Dpto:
+                  </Label>
+                  <Input
+                    id="departamento"
+                    className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+                    {...register('departamento')}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Observations */}
+          <div className="mb-12 flex items-start">
+            <Label
+              htmlFor="observaciones"
+              className="font-normal relative top-[20px]"
+            >
+              OBSERVACIONES:
+            </Label>
+
+            <Input
+              id="observaciones"
+              type="textarea"
+              className="!bg-white border-white border-b-2 border-dotted border-b-black rounded-none font-normal"
+              {...register('observaciones')}
+            />
+          </div>
+
+          {/* Signatures */}
+          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 mb-6">
+            <div className="flex flex-col items-center justify-between border-2 border-black px-6 mb-4">
+              <h4 className="relative -top-1.5 text-lg">
+                Aceptación de la Afiliación:
+              </h4>
+              <div className="flex">
+                <Label
+                  htmlFor="fechaAfiliacion"
+                  className="font-normal text-lg"
+                >
+                  Fecha
+                </Label>
+                <Controller
+                  name="fechaAfiliacion"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <DateInput
+                      {...field}
+                      value={field.value}
+                      className="!bg-white border-b-2 border-dotted border-b-black rounded-none text-lg"
+                    />
+                  )}
+                />
+              </div>
+              <div className="h-24 w-full  mb-2 flex items-end justify-center">
+                <p className="text-black border-t-2 border-dotted border-t-black">
+                  Firma Autoridad Partidaria
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="h-24 w-full py-12 flex items-start justify-end">
+                <p className="text-black text-center border-t-2 w-1/2 border-dotted border-t-black">
+                  Firma del solicitante
+                </p>
+              </div>
+              <div className="w-full">
+                <div className="w-full">
+                  <p className="text-black text-center border-t-2 w-full leading-[20px] border-dotted border-t-black">
+                    Certificación de Firma (por los Titulares del Registro
+                    Provincial de las Personas o sus Delegaciones, Autoridad
+                    Partidaria, Escribano Público, Juez de Paz o de Primera
+                    Instancia en lo Civil y Comercial de turno)
+                  </p>
+                  <p className="text-black text-center border-t-2 w-1/2 border-dashed mt-8 border-t-black"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      {downloadSuccess && (
+        <div
+          onClick={() => setDownloadSuccess(false)}
+          className="absolute animate-bounce w-96 h-20 shadow-lg rounded-md flex justify-center bg-green-100 top-50 left-1/2 -translate-1/2"
+        >
+          <div className="absolute top-0 right-0 p-2 text-gray-600">
+            <Button
+              variant="outline"
+              className="bg-transparent hover:bg-transparent text-gray-600"
+            >
+              x
+            </Button>
+          </div>
+          <div className="flex items-center justify-center">
+            <Check className="h-6 w-6 text-green-800" />
+            <p className="ml-4 text-lg text-green-800">Ficha descargada</p>
+          </div>
         </div>
       )}
-    </form>
+    </div>
   );
 }

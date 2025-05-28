@@ -14,8 +14,8 @@ export type FichaFormValues = {
   calle: string;
   numero: string;
   localidad: string;
-  piso: string;
+  piso?: string;
   departamento: string;
-  observaciones: string;
+  observaciones?: string;
   fechaAfiliacion: string | Date | undefined;
 };

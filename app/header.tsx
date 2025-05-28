@@ -34,12 +34,6 @@ function HeaderContent() {
           <div className="text-xl font-light tracking-widest">AFILIARAPP</div>
         </Link>
         <div className="flex items-center space-x-4">
-          <a
-            href="#"
-            className="text-sm font-medium text-gray-700 hover:text-gray-900"
-          >
-            Pricing
-          </a>
           {user ? (
             <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DropdownMenuTrigger>
@@ -49,7 +43,8 @@ function HeaderContent() {
                     {user.email
                       .split(' ')
                       .map((n) => n[0])
-                      .join('')}
+                      .join('')
+                      .toLocaleUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -57,14 +52,14 @@ function HeaderContent() {
                 <DropdownMenuItem className="cursor-pointer">
                   <Link href="/dashboard" className="flex w-full items-center">
                     <Home className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
+                    <span>Buscador</span>
                   </Link>
                 </DropdownMenuItem>
                 <form action={handleSignOut} className="w-full">
                   <button type="submit" className="flex w-full">
                     <DropdownMenuItem className="w-full flex-1 cursor-pointer">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Sign out</span>
+                      <LogOut className="h-4 w-4" />
+                      <span>Cerrar sesión</span>
                     </DropdownMenuItem>
                   </button>
                 </form>
@@ -75,7 +70,7 @@ function HeaderContent() {
               asChild
               className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full"
             >
-              <Link href="/sign-up">Sign Up</Link>
+              <Link href="/sign-up">Loguearme</Link>
             </Button>
           )}
         </div>

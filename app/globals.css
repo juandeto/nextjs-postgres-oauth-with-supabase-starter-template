@@ -138,3 +138,48 @@
 .rdp-vhidden{
   @apply hidden;
 }
+
+.two-lined-editor {
+  width: 90%;
+  height: 70px; /* Altura para dos líneas */
+  padding: 4px;
+  line-height: 30px; /* Espacio entre líneas */
+  border-bottom: 2px dotted black;
+  outline: none;
+  position: relative;
+}
+
+.two-lined-editor::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 32px; /* Debe coincidir con line-height */
+  height: 1px;
+  border-bottom: 2px dotted black;
+  pointer-events: none;
+}
+
+
+.fill-dotted-input-agrupacion::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  right: 2px;
+  top: 58px; /* Debe coincidir con line-height */
+  height: 1px;
+  border-bottom: 2px dotted black;
+  pointer-events: none;
+}
+
+
+.fill-dotted-input-observacion::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  right: 2px;
+  top: 48px; /* Debe coincidir con line-height */
+  height: 1px;
+  border-bottom: 2px dotted black;
+  pointer-events: none;
+}
