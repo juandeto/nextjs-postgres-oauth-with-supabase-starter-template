@@ -14,6 +14,8 @@ pnpm install
 bun install
 ```
 
+
+
 Create a .env file following .env.example blueprint and enter your Supabase keys.
 
 Finally, run the development server:
